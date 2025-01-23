@@ -34,4 +34,6 @@ app.MapControllers();
 // Call once MapTblLoginEndpoints()
 app.MapTblLoginEndpoints();  // This on GeoTrack_Services.Endpoints
 
+app.MapTblClientEndpoints();
+
 app.Run();
