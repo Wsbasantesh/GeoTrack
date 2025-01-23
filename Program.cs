@@ -1,4 +1,4 @@
-﻿using GeoTrack_Services.Endpoints;  // Asegúrate de importar solo el espacio de nombres correcto
+﻿using GeoTrack_Services.Endpoints;
 using Microsoft.EntityFrameworkCore;
 using GeoTrack_Services.Models;
 using Microsoft.Extensions.Options;
