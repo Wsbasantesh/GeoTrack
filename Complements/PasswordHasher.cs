@@ -4,10 +4,10 @@ using System.Text;
 public class PasswordHasher
 {
     /// <summary>
-    /// Genera un hash SHA-256 de la contraseña.
+    /// Generate a hash SHA-256 from the password.
     /// </summary>
-    /// <param name="password">La contraseña a hashear.</param>
-    /// <returns>El hash en formato hexadecimal.</returns>
+    /// <param name="password">Password to Hash.</param>
+    /// <returns>hexadecimal format Hash.</returns>
     public string HashPassword(string password)
     {
         if (string.IsNullOrEmpty(password))
@@ -18,7 +18,7 @@ public class PasswordHasher
             byte[] bytes = Encoding.UTF8.GetBytes(password);
             byte[] hashBytes = sha256.ComputeHash(bytes);
 
-            // Convertir el hash a formato hexadecimal.
+            // Change hash to hexadecimal.
             StringBuilder builder = new StringBuilder();
             foreach (byte b in hashBytes)
             {
@@ -30,11 +30,11 @@ public class PasswordHasher
     }
 
     /// <summary>
-    /// Compara una contraseña con su hash.
+    /// Compare the password with the hash.
     /// </summary>
-    /// <param name="password">La contraseña en texto plano.</param>
-    /// <param name="hashedPassword">El hash almacenado de la contraseña.</param>
-    /// <returns>Verdadero si coinciden, falso de lo contrario.</returns>
+    /// <param name="password">Password in plain text.</param>
+    /// <param name="hashedPassword">Hash saved on the password.</param>
+    /// <returns>true if match, false otherwhise.</returns>
     public bool VerifyPassword(string password, string hashedPassword)
     {
         string hashedInput = HashPassword(password);
