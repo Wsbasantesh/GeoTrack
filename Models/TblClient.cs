@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace GeoTrack_Services.Models;
-
+//database conections and tables
 public partial class TblClient
 {
     public int Id { get; set; }
