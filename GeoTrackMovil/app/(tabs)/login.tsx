@@ -19,39 +19,24 @@ export default function LoginScreen() {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  /*
-  CREAR CUENTA
-  const handleCreateAccount = () => {
-    createUserWithEmailAndPassword(auth, user, password)
-    .then(userCredential) =>{
-      console.log('Cuenta creada')
-      const user = userCredential.user;
-      catch(error =>{
-        console.log(error)
-      })
-    }
-  }
-  */
   
-  const login = () => {
-    /*console.log("Usuario", user);
-    console.log("Contraseña", password);
-    
-    if (user === "mauricio") {
-      alert(`Usuario: ${user}, Contraseña: ${password}`);
-      router.push("/about"); 
-    } else {
-      alert("Error de inicio de sesión");
-    }*/
-   signInWithEmailAndPassword(auth, ElementInternals, password)
-   .then((userCredential) => {
-    console.log('sign')
-    const user = userCredential.user;
-   })
-   .catch(error => {
-    console.log(error)
-   })
+  const login = async () => {
+    if (!user || !password) {
+      alert("Todos los campos son obligatorios.");
+      console.log("Campos vacíos");
+      return;
+    }
+  
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, user, password);
+      console.log("Inicio de sesión exitoso");
+      router.push("/about");
+    } catch (error) {
+      console.error("Error en el inicio de sesión:");
+      alert("Hubo un problema al iniciar sesión. Intenta nuevamente.");
+    }
   };
+
   return (
     <View style={styles.container}>
       <StatusBar  />
