@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
-import Logo from '../components/Logo';
-import Button from '../components/Button';
+import Logo from '../../components/Logo';
+import Button from '../../components/Button';
 
 export default function MainScreen() {
   return (
