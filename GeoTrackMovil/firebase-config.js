@@ -1,6 +1,6 @@
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyChHNkuTn9afclNOxKLc1wlnBecqOADpZM",
+  apiKey: "AIzaSyChHNkuTn9afcxxxxxxxxxxxxxxxxxxxx",
   authDomain: "geotrack-ed248.firebaseapp.com",
   projectId: "geotrack-ed248",
   storageBucket: "geotrack-ed248.firebasestorage.app",
