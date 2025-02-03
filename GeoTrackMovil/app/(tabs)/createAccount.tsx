@@ -5,6 +5,14 @@ import InputField from '../../src/components/InputField';
 import Button from '../../src/components/Button';
 import LinkText from '../../src/components/LinkText';
 import emailjs from '@emailjs/browser'; // need to install package
+import { useRouter } from "expo-router";
+import { firebaseConfig } from "../../firebase-config";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { initializeApp } from "firebase/app";
 
 export default function RegisterScreen() {
   const [username, setUsername] = useState('');
@@ -13,7 +21,9 @@ export default function RegisterScreen() {
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [generatedCode, setGeneratedCode] = useState('');
-
+  const router = useRouter(); // Hook
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
   const generateCode = () => {
     return Math.floor(100000 + Math.random() * 900000).toString();
   };
@@ -56,11 +66,29 @@ export default function RegisterScreen() {
       alert('Las contraseñas no coinciden.');
       return;
     }
+    if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(username)) {
+        alert("Formato de correo electrónico incorrecto.");
+        return false;
+      }
+    if (password.length < 6) {
+        alert("La contraseña debe tener al menos 6 caracteres.");
+        return false;
+      }
     if (verificationCode !== generatedCode) {
       alert('Código de verificación incorrecto.');
       return;
     }
-    alert('Cuenta creada correctamente.');
+    return true;
+  };
+    if (!validateInputs()) return;\
+  try {
+      const userCredential = await createUserWithEmailAndPassword(auth, username, password);
+      console.log("Cuenta creada con éxito");
+      router.push("/login");
+    } catch (error) {
+      console.error("Error al crear la cuenta:", error);
+      alert("Hubo un problema al crear tu cuenta. Intenta nuevamente.");
+    }
   };
 
   return (
