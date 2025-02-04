@@ -58,6 +58,7 @@ export default function RegisterScreen() {
   };
 
   const handleRegister = () => {
+   const validateInputs = () => {
     if (!username || !password || !confirmPassword || !email || !verificationCode) {
       alert('Todos los campos son obligatorios.');
       return;
@@ -79,8 +80,9 @@ export default function RegisterScreen() {
       return;
     }
     return true;
+   
   };
-    if (!validateInputs()) return;\
+    if (!validateInputs()) return;
   try {
       const userCredential = await createUserWithEmailAndPassword(auth, username, password);
       console.log("Cuenta creada con éxito");
