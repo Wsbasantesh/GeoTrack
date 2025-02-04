@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StatusBar, StyleSheet, Alert } from 'react-native';
-import Logo from '../../src/components/Logo';
-import InputField from '../../src/components/InputField';
-import Button from '../../src/components/Button';
-import LinkText from '../../src/components/LinkText';
+import Logo from '../../components/logo';
+import InputField from '../../components/InputField';
+import Button from '../../components/Button';
+import LinkText from '../../components/LinkText';
 import emailjs from '@emailjs/browser'; // need to install package
 import { useRouter } from "expo-router";
 import { firebaseConfig } from "../../firebase-config";
@@ -33,22 +33,22 @@ export default function RegisterScreen() {
       alert('Ingrese un correo electrónico.');
       return;
     }
-    
+
     const code = generateCode();  // Generates validation code
     setGeneratedCode(code);
-  
+
     const emailParams = {
       to_name: username || "Usuario",
       verification_code: code, // Template for mail
       to_email: email,
     };
-  
+
     try {
       await emailjs.send(
-        'service_xxxx',  //  Service ID
-        'template_xxxx',  //  Template ID
+        'service_60v8p6e',  //  Service ID
+        'template_zn57prm',  //  Template ID
         emailParams,
-        'TXXXXXXpxxxxx'  // Public Key
+        'TXXKTZp3ZMWqOz_Rg'  // Public Key
       );
       alert('Correo enviado, revise tu bandeja de entrada.');
     } catch (error) {
@@ -57,34 +57,33 @@ export default function RegisterScreen() {
     }
   };
 
-  const handleRegister = () => {
-   const validateInputs = () => {
-    if (!username || !password || !confirmPassword || !email || !verificationCode) {
-      alert('Todos los campos son obligatorios.');
-      return;
-    }
-    if (password !== confirmPassword) {
-      alert('Las contraseñas no coinciden.');
-      return;
-    }
-    if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(username)) {
+  const handleRegister = async () => {
+    const validateInputs = () => {
+      if (!username || !password || !confirmPassword || !email || !verificationCode) {
+        alert('Todos los campos son obligatorios.');
+        return false;
+      }
+      if (password !== confirmPassword) {
+        alert('Las contraseñas no coinciden.');
+        return false;
+      }
+      if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,10}$/.test(email)) {
         alert("Formato de correo electrónico incorrecto.");
         return false;
       }
-    if (password.length < 6) {
+      if (password.length < 6) {
         alert("La contraseña debe tener al menos 6 caracteres.");
         return false;
       }
-    if (verificationCode !== generatedCode) {
-      alert('Código de verificación incorrecto.');
-      return;
-    }
-    return true;
-   
-  };
+      if (verificationCode !== generatedCode) {
+        alert('Código de verificación incorrecto.');
+        return false;
+      }
+      return true;
+    };
     if (!validateInputs()) return;
-  try {
-      const userCredential = await createUserWithEmailAndPassword(auth, username, password);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       console.log("Cuenta creada con éxito");
       router.push("/login");
     } catch (error) {
@@ -92,6 +91,7 @@ export default function RegisterScreen() {
       alert("Hubo un problema al crear tu cuenta. Intenta nuevamente.");
     }
   };
+
 
   return (
     <View style={styles.container}>
@@ -106,7 +106,7 @@ export default function RegisterScreen() {
 
       <LinkText text="Enviar código de verificación" style={styles.verificationText} onPress={sendVerificationEmail} />
       <InputField placeholder="Código de verificación" value={verificationCode} onChangeText={setVerificationCode} style={styles.input} />
-      
+
       <Button title="Registrarse" style={styles.registerButton} textStyle={styles.registerText} onPress={handleRegister} />
     </View>
   );
@@ -121,9 +121,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   image: {
-    width: 150, 
+    width: 150,
     height: 150,
-    resizeMode: "contain", 
+    resizeMode: "contain",
   },
   title: {
     fontSize: 24,

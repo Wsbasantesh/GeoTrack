@@ -1,4 +1,4 @@
-﻿using GeoTrack_Services.Endpoints;
+﻿using GeoTrack_Services.Endpoints;  // Asegúrate de importar solo el espacio de nombres correcto
 using Microsoft.EntityFrameworkCore;
 using GeoTrack_Services.Models;
 using Microsoft.Extensions.Options;
@@ -6,7 +6,7 @@ using GeoTrack_Services.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add service to DbContext
+// Agregar el servicio de DbContext
 builder.Services.AddDbContext<GeoTrackContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Data Source=JAVIERDIAZ\\SQLEXPRESS;Initial Catalog=GeoTrack;Integrated Security=True;Connect Timeout=30;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False")));
 
@@ -15,6 +15,22 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+//Add cors
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:8081")
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+        });
+});
+
+
+
 
 var app = builder.Build();
 
@@ -27,12 +43,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//Add cors for local host
+app.UseCors("AllowLocalhost"); 
+
+
+
 app.UseAuthorization();
 
 app.MapControllers();
 
-// Here we just need to call once to MapTblLoginEndpoints()
-app.MapTblLoginEndpoints();  // This should be on GeoTrack_Services.Endpoints
+// Aquí solo necesitamos llamar una vez a MapTblLoginEndpoints()
+app.MapTblLoginEndpoints();  // Esto debe estar en GeoTrack_Services.Endpoints
 
 app.MapTblClientEndpoints();
 
