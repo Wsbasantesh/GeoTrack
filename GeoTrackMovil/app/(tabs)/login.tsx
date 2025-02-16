@@ -19,6 +19,9 @@ export default function LoginScreen() {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
+  const goRegister = () =>{
+    router.push("/createAccount")
+  }
   
   const login = async () => {
     if (!user || !password) {
@@ -30,7 +33,7 @@ export default function LoginScreen() {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, user, password);
       console.log("Inicio de sesión exitoso");
-      router.push("/about");
+      router.push("/main");
     } catch (error) {
       console.error("Error en el inicio de sesión:");
       alert("Hubo un problema al iniciar sesión. Intenta nuevamente.");
@@ -45,7 +48,7 @@ export default function LoginScreen() {
 
       <InputField 
         style={styles.input} 
-        placeholder="Username" 
+        placeholder="Email" 
         secureTextEntry={false}
         onChangeText={setUser}  // Catch text
       />
@@ -59,7 +62,7 @@ export default function LoginScreen() {
 
       <Button title="Login" style={styles.loginButton} textStyle={styles.loginText} onPress={login} />
 
-      <LinkText text="Are you not registered yet?" style={styles.registerText} onPress={() => {}} />
+      <LinkText text="Are you not registered yet?" style={styles.registerText} onPress={goRegister} />
     </View>
   );
 }

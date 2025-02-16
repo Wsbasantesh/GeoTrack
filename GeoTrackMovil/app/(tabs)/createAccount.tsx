@@ -15,7 +15,7 @@ import {
 import { initializeApp } from "firebase/app";
 
 export default function RegisterScreen() {
-  const [username, setUsername] = useState('');
+  const [names, setNames] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -24,6 +24,11 @@ export default function RegisterScreen() {
   const router = useRouter(); // Hook
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+
+  const goLogin = () =>{
+    router.push("/login");
+  };
+
   const generateCode = () => {
     return Math.floor(100000 + Math.random() * 900000).toString();
   };
@@ -38,7 +43,7 @@ export default function RegisterScreen() {
     setGeneratedCode(code);
 
     const emailParams = {
-      to_name: username || "Usuario",
+      to_name: names || "Usuario",
       verification_code: code, // Template for mail
       to_email: email,
     };
@@ -59,7 +64,7 @@ export default function RegisterScreen() {
 
   const handleRegister = async () => {
     const validateInputs = () => {
-      if (!username || !password || !confirmPassword || !email || !verificationCode) {
+      if (!password || !confirmPassword || !email || !verificationCode) {
         alert('Todos los campos son obligatorios.');
         return false;
       }
@@ -98,16 +103,19 @@ export default function RegisterScreen() {
       <StatusBar />
       <Logo style={styles.image} />
       <Text style={styles.title}>Crear Cuenta</Text>
-
-      <InputField placeholder="Usuario" value={username} onChangeText={setUsername} style={styles.input} />
+      
+      <InputField placeholder="Email" value={email} onChangeText={setEmail} style={styles.input} />
+      <InputField placeholder="Nombres" value={names} onChangeText={setNames} style={styles.input} />
       <InputField placeholder="Contraseña" secureTextEntry value={password} onChangeText={setPassword} style={styles.input} />
       <InputField placeholder="Confirmar Contraseña" secureTextEntry value={confirmPassword} onChangeText={setConfirmPassword} style={styles.input} />
-      <InputField placeholder="Email" value={email} onChangeText={setEmail} style={styles.input} />
 
       <LinkText text="Enviar código de verificación" style={styles.verificationText} onPress={sendVerificationEmail} />
       <InputField placeholder="Código de verificación" value={verificationCode} onChangeText={setVerificationCode} style={styles.input} />
 
       <Button title="Registrarse" style={styles.registerButton} textStyle={styles.registerText} onPress={handleRegister} />
+      
+      <LinkText text="Already have an account?" style={styles.alreadyText} onPress={goLogin} />
+
     </View>
   );
 }
@@ -157,4 +165,7 @@ const styles = StyleSheet.create({
     color: '#1287c3',
     marginBottom: 10,
   },
+  alreadyText: {
+    color: '#1287c3',
+  }
 });

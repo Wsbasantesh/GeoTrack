@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, StatusBar, FlatList } from 'react-native';
 import Logo from '../../components/logo';
 import Button from '../../components/Button';
-
+import ClientButton from "../../components/ClientButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
@@ -10,7 +10,6 @@ type Client = {
   id: number;
   names: string;
 };
-
 
 
 export default function MainScreen() {
@@ -47,13 +46,6 @@ export default function MainScreen() {
     loadClients();
   }, []);
 
-  /* 
-        <View style={styles.clientList}>
-          <Text style={styles.clientListText}>Lista de clientes (vacío)</Text>
-        </View>
-        
-  */
-
   return (
     <View style={styles.container}>
       <StatusBar />
@@ -73,12 +65,11 @@ export default function MainScreen() {
             data={clients}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
-              <Text style={styles.clientItem}>{item.names}</Text>
-            )}
+<ClientButton id={item.id} name={item.names} />            )}
           />
         )}
       </View>
-      {/* Nav bar */}
+      {/*  
       <View style={styles.navBar}>
         <Button
           title="Home"
@@ -111,6 +102,7 @@ export default function MainScreen() {
           textStyle={styles.mainText}
           onPress={() => { }} />
       </View>
+      */}
     </View>
   );
 }
