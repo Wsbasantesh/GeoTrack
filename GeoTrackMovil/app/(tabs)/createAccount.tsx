@@ -50,10 +50,10 @@ export default function RegisterScreen() {
 
     try {
       await emailjs.send(
-        'service_60v8p6e',  //  Service ID
-        'template_zn57prm',  //  Template ID
+        'service_6xxxxxe',  //  Service ID
+        'template_znxxxxm',  //  Template ID
         emailParams,
-        'TXXKTZp3ZMWqOz_Rg'  // Public Key
+        'TXXKTxxxxx'  // Public Key
       );
       alert('Correo enviado, revise tu bandeja de entrada.');
     } catch (error) {
